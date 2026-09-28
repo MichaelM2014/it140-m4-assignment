@@ -1,29 +1,60 @@
-# IT 140 Module Four Assignment
-# Higher/Lower Game Pseudocode Template
-#
-# Complete the TODO prompts below with your own pseudocode.
-# Keep this file in .pseudo format for submission.
-#
-# Use clear indentation to show decisions and repeated behavior.
-# Your finished pseudocode should address every requirement in the
-# current Module Four Assignment Guidelines and Rubric.
+import random
 
-START hilow_game
 
-    # Establish a valid guessing range.
-    TODO: Obtain the lower and upper bounds.
-    TODO: Repeat as needed until the bounds satisfy the requirement.
+def main():
+    print("Welcome to the Higher/Lower Game!")
 
-    # Establish the number the player is trying to guess.
-    TODO: Generate the required random number from the valid range.
+    # Step 1: Input validation for bounds
+    while True:
+        try:
+            lower_bound = int(input("Enter the lower bound: "))
+            upper_bound = int(input("Enter the upper bound: "))
 
-    # Play the game.
-    TODO: Obtain and validate a guess using the selected bounds.
-    TODO: Repeat the required game behavior until the correct guess.
-        TODO: Compare a valid guess and provide the required feedback.
-        TODO: Obtain and validate another guess when play continues.
+            if lower_bound < upper_bound:
+                break
+            else:
+                print(
+                    "Invalid input: Lower bound must be strictly less than upper bound.\n"
+                )
+        except ValueError:
+            print("Invalid input: Please enter valid integers.\n")
 
-END hilow_game
+    # Step 2: Generate random target number
+    target_number = random.randint(lower_bound, upper_bound)
+    is_guessed = False
 
-# === References ===
-# TODO: Add references for sources you used, or delete this line if unused.
+    # Step 3 & 4: Game loop and decision branching
+    while not is_guessed:
+        # Input validation for guess
+        while True:
+            try:
+                user_guess = int(
+                    input(
+                        f"Enter your guess (between {lower_bound} and {upper_bound}): "
+                    )
+                )
+                if lower_bound <= user_guess <= upper_bound:
+                    break
+                else:
+                    print(
+                        f"Out of bounds! Guess must be between {lower_bound} and {upper_bound}."
+                    )
+            except ValueError:
+                print("Invalid input: Please enter a valid integer.")
+
+        # Check guess
+        if user_guess < target_number:
+            print("Higher!\n")
+        elif user_guess > target_number:
+            print("Lower!\n")
+        else:
+            print(
+                "You got it! Congratulations, you guessed the correct number!"
+            )
+            is_guessed = True
+
+    print("Thank you for playing!")
+
+
+if __name__ == "__main__":
+    main()
